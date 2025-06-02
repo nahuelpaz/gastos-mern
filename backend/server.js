@@ -9,6 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Rutas
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const categoryRoutes = require('./routes/categories');
@@ -18,6 +19,11 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+
+// Ruta raíz para confirmar que el servidor está activo
+app.get('/', (req, res) => {
+  res.send('API funcionando correctamente');
+});
 
 const Category = require('./models/Category');
 
@@ -33,18 +39,17 @@ async function createPredefinedCategories() {
   }
 }
 
+// Importante: usa el puerto que Render asigna via env variable
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URI)
   .then(async () => {
     console.log('MongoDB conectado');
-
-    // Crear categorías predefinidas
     await createPredefinedCategories();
 
     app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
   })
   .catch(err => {
     console.error('Error conectando a MongoDB:', err);
-    process.exit(1); 
+    process.exit(1);
   });
