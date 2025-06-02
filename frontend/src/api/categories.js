@@ -2,5 +2,5 @@
 import axios from './axios'; // o desde donde tengas configurado axios
 
 export const getCategories = () => {
-  return axios.get('/categories');
+  return axios.get('api/categories');
 };
