@@ -16,10 +16,10 @@ const expenseRoutes = require('./routes/expenses');
 
 app.use('/api/categories', categoryRoutes);
 app.use('/api/expenses', expenseRoutes);
-app.use('/api/auth', authRoutes); // Asegúrate de que esta línea esté presente
+app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 
-const Category = require('./models/Category');  // Importá el modelo Category aquí
+const Category = require('./models/Category');
 
 const predefinedCategories = ['Sin categoría', 'Alimentos', 'Transporte', 'Entretenimiento', 'Salud', 'Educación'];
 
@@ -33,14 +33,18 @@ async function createPredefinedCategories() {
   }
 }
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(async () => {
-  console.log('MongoDB conectado');
+const PORT = process.env.PORT || 5000;
 
-  // Crear categorías predefinidas
-  await createPredefinedCategories();
+mongoose.connect(process.env.MONGO_URI)
+  .then(async () => {
+    console.log('MongoDB conectado');
 
-  app.listen(process.env.PORT, () => console.log(`Servidor en puerto ${process.env.PORT}`));
-}).catch(err => console.error(err));
+    // Crear categorías predefinidas
+    await createPredefinedCategories();
+
+    app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
+  })
+  .catch(err => {
+    console.error('Error conectando a MongoDB:', err);
+    process.exit(1); 
+  });

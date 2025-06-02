@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Category = require('../models/Category');
 const Expense = require('../models/Expense');
-const { verifyToken } = require('../middleware/authMiddleware');  // <-- así importas
+const { verifyToken } = require('../middleware/authMiddleware');
 
 // Obtener categorías globales + propias
 router.get('/', verifyToken, async (req, res) => {

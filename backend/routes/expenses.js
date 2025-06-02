@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Expense = require('../models/Expense');
 const Category = require('../models/Category');
-const { verifyToken } = require('../middleware/authMiddleware');  // <-- Importar función específica
+const { verifyToken } = require('../middleware/authMiddleware');  
 
 // Obtener gastos del usuario
 router.get('/', verifyToken, async (req, res) => {
@@ -21,7 +21,7 @@ router.post('/', verifyToken, async (req, res) => {
     return res.status(400).json({ message: 'Datos incompletos' });
 
   try {
-    // Verificamos categoría existe y pertenece al usuario o es global
+    
     const category = await Category.findOne({
       _id: categoryId,
       $or: [{ user: null }, { user: req.user.id }],
