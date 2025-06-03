@@ -66,10 +66,10 @@ const Categories = () => {
 
     try {
       if (editingCategory) {
-        await axios.put(`/categories/${editingCategory._id}`, { name: categoryName });
+        await axios.put(`api/categories/${editingCategory._id}`, { name: categoryName });
         toast.success('Categoría actualizada exitosamente');
       } else {
-        await axios.post('/categories', { name: categoryName });
+        await axios.post('api/categories', { name: categoryName });
         toast.success('Categoría creada exitosamente');
       }
       await fetchCategories();
@@ -96,7 +96,7 @@ const Categories = () => {
             onClick={async () => {
               toast.dismiss(t.id);
               try {
-                await axios.delete(`/categories/${id}`);
+                await axios.delete(`api/categories/${id}`);
                 await fetchCategories();
                 toast.success('Categoría eliminada exitosamente');
               } catch (error) {
